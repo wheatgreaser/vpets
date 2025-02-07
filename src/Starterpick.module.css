@@ -1,0 +1,79 @@
+/* App container */
+.App {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Keeps left and right spacing */
+    align-items: center; /* Centers items vertically */
+    font-family: 'coolfont', sans-serif;
+    background: #fafafa;
+  }
+  
+  /* Heading styles */
+  .heading {
+    font-family: 'coolfont', sans-serif;
+    color: black;
+    text-align: center; 
+    font-size: 60px;
+    margin: 20px;
+  }
+  
+  /* Load font properly */
+  @font-face {
+    font-family: 'coolfont';
+    src: url('./coolfont.ttf') format('truetype'); 
+  }
+  
+  /* Top elements (Links for Signup & Login) */
+  .topElements {
+    display: flex;
+    gap: 20px; 
+    font-size: 30px;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: black;
+    text-decoration: none;
+    align-items: center;
+    margin-left: auto; 
+  }
+  
+  /* Remove underline from links */
+  .topElements a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  /* Hover effect for links */
+  .topElements a:hover {
+    color: #007bff; 
+  }
+  
+  .secondHeading {
+    font-family: 'coolfont';
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Responsive fix for smaller screens */
+  @media (max-width: 768px) {
+    .App {
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .heading {
+      font-size: 40px;
+    }
+  
+    .topElements {
+      margin-left: 0; 
+      justify-content: center;
+    }
+  }
+  .pet1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

@@ -47,7 +47,8 @@ function Signup() {
       await setDoc(doc(db, "users", user.uid), {
         username: name,
         email: email,
-        health: 100
+        health: 100,
+        foodQuantity: 10,
       });
 
       alert("Sign-up successful!");

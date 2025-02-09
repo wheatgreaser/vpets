@@ -8,6 +8,7 @@ import flowerguy from './flowerguy.png';
 function App() {
   const [username, setUsername] = useState(""); 
   const [health, setHealth] = useState(50);
+  const [food, setFood] = useState(2);
   const auth = getAuth(); 
   const db = getFirestore(); 
 
@@ -18,7 +19,8 @@ function App() {
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists()) {
             setUsername(userDoc.data().username); 
-            setHealth(userDoc.data().health)
+            setHealth(userDoc.data().health);
+            setFood(userDoc.data().foodQuantity);
           } else {
             console.log("No such user in Firestore");
           }
@@ -57,6 +59,16 @@ function App() {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [auth]);
 
+  const increaseHealth = () => {
+    updateDoc(doc(db, "users", auth.currentUser.uid), { health: health + 10 })
+            .catch((error) => console.error("Error updating health:", error));
+    setHealth(health + 10);
+    updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food - 1 })
+            .catch((error) => console.error("Error updating foodQuantity:", error));
+    setFood(food - 1);
+
+  }
+
   return (
     <div>
     <div className={styles.App}>
@@ -70,7 +82,7 @@ function App() {
     </div>
     
     <div className={styles.secondHeading}>
-        {username && <h2> welcome {username}</h2>} 
+        {username && <h2> welcom e {username}</h2>} 
         
     </div>
     <div className={styles.pet1}>
@@ -80,6 +92,14 @@ function App() {
     <div className = {styles.healthDisplay}>
     {health&& <h2>health: {health}</h2>} 
     </div>
+    <div className = {styles.healthDisplay}>
+    {food&& <h2>food quantity: {food}</h2>} 
+    <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
+    </div>
+    <div classname= {styles.buttonholder}>
+      
+    </div>
+    
     
     </div>
   );

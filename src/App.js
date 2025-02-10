@@ -116,7 +116,7 @@ function App() {
   }
 
   const buyFood = () => {
-    
+
     if(coins > 15){
       updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins - 15 })
             .catch((error) => console.error("Error updating health:", error));
@@ -164,7 +164,7 @@ function App() {
     {food&& <h2>food quantity: {food}</h2>} 
     <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
     <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
-    <button className={styles.coolbutton} onClick={cultivation}>cultivate</button>
+    <button className={styles.coolbutton} onClick={cultivation}>cultivate food</button>
     <button className={styles.coolbutton} onClick={buyFood}>buy food</button>
     </div>
 

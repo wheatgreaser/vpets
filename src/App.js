@@ -61,6 +61,25 @@ function App() {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [auth]);
 
+  const cultivation = () => {
+    if (food === 0) {
+      alert("No food left to cultivate!");
+      return;
+    }
+  
+    // Decrease food immediately
+    updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food - 1 })
+      .catch((error) => console.error("Error updating foodQuantity:", error));
+    setFood(food - 1);
+  
+    // Increase food after 5 minutes (300,000 ms)
+    setTimeout(() => {
+      updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food + 2 })
+        .catch((error) => console.error("Error updating foodQuantity after cultivation:", error));
+      setFood((prevFood) => prevFood + 2);
+    }, 300000);
+  };
+
   const increaseHealth = () => {
     if(food == 0){
       alert("no food left");
@@ -80,12 +99,38 @@ function App() {
       alert("no food left");
       return 0;
     }
-    updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins + 10 })
+    if(food > 0){
+      updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins + 10 })
             .catch((error) => console.error("Error updating health:", error));
     setCoins(coins + 10);
     updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food - 1 })
             .catch((error) => console.error("Error updating foodQuantity:", error));
     setFood(food - 1);
+
+    }
+    else{
+      alert("not enough food");
+    }
+    
+
+  }
+
+  const buyFood = () => {
+    
+    if(coins > 15){
+      updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins - 15 })
+            .catch((error) => console.error("Error updating health:", error));
+    setCoins(coins + 10);
+    updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food + 1 })
+            .catch((error) => console.error("Error updating foodQuantity:", error));
+    setFood(food - 1);
+
+    }
+    else{
+      alert('not enough money');
+    }
+
+    
 
   }
 
@@ -96,7 +141,7 @@ function App() {
       <div className={styles.topElements}>
         <Link to="/signup"><h2>signup</h2></Link>
         <Link to="/login"><h2>login</h2></Link>
-        <Link to="/petstuff"><h2>petstuff</h2></Link>
+        
       </div>
       
     </div>
@@ -119,6 +164,8 @@ function App() {
     {food&& <h2>food quantity: {food}</h2>} 
     <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
     <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
+    <button className={styles.coolbutton} onClick={cultivation}>cultivate</button>
+    <button className={styles.coolbutton} onClick={buyFood}>buy food</button>
     </div>
 
     </div>

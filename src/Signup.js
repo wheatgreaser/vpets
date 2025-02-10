@@ -49,6 +49,7 @@ function Signup() {
         email: email,
         health: 100,
         foodQuantity: 10,
+        coins: 1
       });
 
       alert("Sign-up successful!");

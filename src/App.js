@@ -9,6 +9,7 @@ function App() {
   const [username, setUsername] = useState(""); 
   const [health, setHealth] = useState(50);
   const [food, setFood] = useState(2);
+  const [coins, setCoins] = useState(1);
   const auth = getAuth(); 
   const db = getFirestore(); 
 
@@ -21,6 +22,7 @@ function App() {
             setUsername(userDoc.data().username); 
             setHealth(userDoc.data().health);
             setFood(userDoc.data().foodQuantity);
+            setCoins(userDoc.data().coins);
           } else {
             console.log("No such user in Firestore");
           }
@@ -60,9 +62,27 @@ function App() {
   }, [auth]);
 
   const increaseHealth = () => {
+    if(food == 0){
+      alert("no food left");
+      return 0;
+    }
     updateDoc(doc(db, "users", auth.currentUser.uid), { health: health + 10 })
             .catch((error) => console.error("Error updating health:", error));
     setHealth(health + 10);
+    updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food - 1 })
+            .catch((error) => console.error("Error updating foodQuantity:", error));
+    setFood(food - 1);
+
+  }
+
+  const sellFood = () => {
+    if(food == 0){
+      alert("no food left");
+      return 0;
+    }
+    updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins + 10 })
+            .catch((error) => console.error("Error updating health:", error));
+    setCoins(coins + 10);
     updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food - 1 })
             .catch((error) => console.error("Error updating foodQuantity:", error));
     setFood(food - 1);
@@ -93,14 +113,14 @@ function App() {
     {health&& <h2>health: {health}</h2>} 
     </div>
     <div className = {styles.healthDisplay}>
+    {coins&& <h2>coins: {coins}</h2>} 
+    </div>
+    <div className = {styles.healthDisplay}>
     {food&& <h2>food quantity: {food}</h2>} 
     <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
+    <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
     </div>
-    <div classname= {styles.buttonholder}>
-      
-    </div>
-    
-    
+
     </div>
   );
 }

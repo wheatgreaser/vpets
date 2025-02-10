@@ -71,17 +71,64 @@
     justify-content: center;
   }
 }
-.pet1{
+
+.petContainer{
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.healthDisplay{
+.pet1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid black; 
+  height: 400px;
+  width: 700px;
+  margin: 10px;
+}
+
+.healthDisplay {
+  border: 5px solid black; 
+  padding: 5px 100px;                 
+  margin: auto;          
+  height: 30px;   
+  background-color: 	#5eba24;
+  display: flex;
+  justify-content: center;
+}
+.statDisplay{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.statDisplay2{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+  left: 40px;
+
+}
+@media (max-width: 768px) {
+  .statDisplay2 {
+    flex-direction: column;
+    align-items: center;
+    left: 0; /* Reset position */
+  }
+}
+
+.coinDisplay{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.foodDisplay{
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .coolbutton {
@@ -96,6 +143,8 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   outline: none;
   margin: 3px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .coolbutton:hover {
@@ -111,4 +160,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.marketStuff {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Adjust spacing */
+  align-items: center;
+  padding: 5px;
+
+}
+
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }

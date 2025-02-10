@@ -120,10 +120,10 @@ function App() {
     if(coins > 15){
       updateDoc(doc(db, "users", auth.currentUser.uid), { coins: coins - 15 })
             .catch((error) => console.error("Error updating health:", error));
-    setCoins(coins + 10);
+    setCoins(coins - 15);
     updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food + 1 })
             .catch((error) => console.error("Error updating foodQuantity:", error));
-    setFood(food - 1);
+    setFood(food + 1);
 
     }
     else{
@@ -150,23 +150,34 @@ function App() {
         {username && <h2> welcom e {username}</h2>} 
         
     </div>
+    <div className={styles.petContainer}>
     <div className={styles.pet1}>
       <img src={flowerguy} style={{ width: "640px", height: "300px" }}></img>
-      
+      </div>
     </div>
-    <div className = {styles.healthDisplay}>
-    {health&& <h2>health: {health}</h2>} 
+    <div className = {styles.statDisplay2}>
+    
+    
+    {coins&& <h2 className={styles.coinDisplay}>coins: {coins}</h2>} 
+    <div>
+    {health&& <h2 className = {styles.healthDisplay}>health: {health}</h2>} 
     </div>
-    <div className = {styles.healthDisplay}>
-    {coins&& <h2>coins: {coins}</h2>} 
+    {food&& <h2 className={styles.foodDisplay}>food quantity: {food}</h2>} 
     </div>
-    <div className = {styles.healthDisplay}>
-    {food&& <h2>food quantity: {food}</h2>} 
+    <div className = {styles.statDisplay}>
+    <div className = {styles.marketStuff}></div>
+    <div className = {styles.farming}></div>
     <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
-    <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
     <button className={styles.coolbutton} onClick={cultivation}>cultivate food</button>
-    <button className={styles.coolbutton} onClick={buyFood}>buy food</button>
+    <h2>market</h2>
     </div>
+    
+    <div className = {styles.marketStuff}>
+      <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
+      <button className={styles.coolbutton} onClick={buyFood}>buy food</button>
+    </div>
+
+    
 
     </div>
   );

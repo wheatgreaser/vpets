@@ -1,17 +1,39 @@
 import styles from './App.module.css';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import flowerguy from './flowerguy.png';
 
 function App() {
   const [username, setUsername] = useState(""); 
-  const [health, setHealth] = useState(50);
-  const [food, setFood] = useState(2);
-  const [coins, setCoins] = useState(1);
+  const [health, setHealth] = useState(0);
+  const [food, setFood] = useState(0);
+  const [coins, setCoins] = useState(0);
   const auth = getAuth(); 
   const db = getFirestore(); 
+  var [isAuthenticated, setAuthenticated] = useState(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User is signed in:", user);
+      setAuthenticated(true);
+      // User is logged in, update UI accordingly
+    } else {
+      console.log("User is signed out");
+      // User is logged out, redirect or show login UI
+    }
+  });
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("User signed out successfully");
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -141,45 +163,47 @@ function App() {
       <div className={styles.topElements}>
         <Link to="/signup"><h2>signup</h2></Link>
         <Link to="/login"><h2>login</h2></Link>
-        
+        <a onClick={handleSignOut} className={styles.signOut}><h2>signout</h2></a>
+
       </div>
       
     </div>
-    
-    <div className={styles.secondHeading}>
-        {username && <h2> welcom e {username}</h2>} 
-        
-    </div>
-    <div className={styles.petContainer}>
-    <div className={styles.pet1}>
-      <img src={flowerguy} style={{ width: "640px", height: "300px" }}></img>
+
+    {isAuthenticated && (
+    <div>
+      <div className={styles.secondHeading}>
+        {username && <h2>welcom e {username}</h2>} 
+      </div>
+      <div className={styles.petContainer}>
+        <div className={styles.pet1}>
+          <img src={flowerguy} style={{ width: "640px", height: "300px" }} alt="Pet"/>
+        </div>
+      </div>
+      <div className={styles.statDisplay2}>
+        {coins !== null && <h2 className={styles.coinDisplay}>Coins: {coins}</h2>} 
+        <div>
+          {health !== null && <h2 className={styles.healthDisplay}>Health: {health}</h2>} 
+        </div>
+        {food !== null && <h2 className={styles.foodDisplay}>Food quantity: {food}</h2>} 
+      </div>
+      <div className={styles.statDisplay}>
+        <div className={styles.marketStuff}></div>
+        <div className={styles.farming}></div>
+        <button className={styles.coolbutton} onClick={increaseHealth}>Feed the monster</button>
+        <button className={styles.coolbutton} onClick={cultivation}>Cultivate food</button>
+        <h2>Market</h2>
+      </div>
+      <div className={styles.marketStuff}>
+        <button className={styles.coolbutton} onClick={sellFood}>Sell food</button>
+        <button className={styles.coolbutton} onClick={buyFood}>Buy food</button>
       </div>
     </div>
-    <div className = {styles.statDisplay2}>
-    
-    
-    {coins&& <h2 className={styles.coinDisplay}>coins: {coins}</h2>} 
-    <div>
-    {health&& <h2 className = {styles.healthDisplay}>health: {health}</h2>} 
-    </div>
-    {food&& <h2 className={styles.foodDisplay}>food quantity: {food}</h2>} 
-    </div>
-    <div className = {styles.statDisplay}>
-    <div className = {styles.marketStuff}></div>
-    <div className = {styles.farming}></div>
-    <button className={styles.coolbutton} onClick={increaseHealth}>feed the monster</button>
-    <button className={styles.coolbutton} onClick={cultivation}>cultivate food</button>
-    <h2>market</h2>
-    </div>
-    
-    <div className = {styles.marketStuff}>
-      <button className={styles.coolbutton} onClick={sellFood}>sell food</button>
-      <button className={styles.coolbutton} onClick={buyFood}>buy food</button>
+    )}
+    {!isAuthenticated && (
+      <div className={styles.BegToSign}><h2>signup/login to manage your pet</h2></div>
+    )}
     </div>
 
-    
-
-    </div>
   );
 }
 

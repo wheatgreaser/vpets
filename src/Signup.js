@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
+import { useNavigate } from "react-router-dom";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -24,6 +25,7 @@ const db = getFirestore(app);
 const functions = getFunctions(app);
 
 function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -53,6 +55,7 @@ function Signup() {
       });
 
       alert("Sign-up successful!");
+      navigate("/");
 
     } catch (error) {
       alert("Error: " + error.message);

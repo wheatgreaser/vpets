@@ -7,6 +7,7 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
 import { useNavigate } from "react-router-dom";
 
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrAn_i9d-LUREYePaDEL8kaI2TItaYevo",
@@ -24,7 +25,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
 
+
 function Signup() {
+  
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -51,7 +55,12 @@ function Signup() {
         email: email,
         health: 100,
         foodQuantity: 10,
-        coins: 1
+        coins: 500,
+        friendList: [],
+        xp: 10,
+        level: 1,
+        items: [],
+        
       });
 
       alert("Sign-up successful!");

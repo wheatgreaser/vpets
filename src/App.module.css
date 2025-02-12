@@ -40,10 +40,6 @@
   transition: color 0.3s ease; /* Smooth transition */
 }
 
-.signOut :hover {
-  color: red; /* Change to red on hover */
-  cursor: pointer; /* Optional: Change cursor to indicate it's clickable */
-}
 
 /* Remove underline from links */
 .topElements a {
@@ -190,5 +186,10 @@ html, body {
 .BegToSign{
   display: flex;
   flex-direction: row;
+  justify-content: center;
+}
+
+.showItems{
+  display: flex;
   justify-content: center;
 }

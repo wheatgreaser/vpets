@@ -6,6 +6,7 @@ import App from './App';
 import Signup from './Signup';
 import Login from './Login';
 import Starterpick from './Starterpick';
+import Shop from './Shop'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/starterpick" element={<Starterpick />} />
+      <Route path="/shop" element={<Shop />} />
     </Routes>
   </BrowserRouter>
 );

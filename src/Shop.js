@@ -1,11 +1,11 @@
-import styles from './App.module.css';
+import styles from './Shop.module.css';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
-import flowerguy from './flowerguy.png';
+import cultmult from './cultmult.png';
 
-function App() {
+function Shop() {
   const [username, setUsername] = useState(""); 
   const [health, setHealth] = useState(0);
   const [food, setFood] = useState(0);
@@ -14,9 +14,7 @@ function App() {
   const auth = getAuth(); 
   const db = getFirestore(); 
   var [isAuthenticated, setAuthenticated] = useState(false);
-  const [cultRate, setCultrate] = useState(30000);
   console.log(process.env.API_KEY)
-  console.log(cultRate);
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("User is signed in:", user);
@@ -48,8 +46,6 @@ function App() {
             setHealth(userDoc.data().health);
             setFood(userDoc.data().foodQuantity);
             setCoins(userDoc.data().coins);
-            setItems(userDoc.data().items);
-            console.log(items[0]);
           } else {
             console.log("No such user in Firestore");
           }
@@ -66,7 +62,6 @@ function App() {
   useEffect(() => {
     console.log(health);
   }, [health]);
-
 
   useEffect(() => {
     if (!auth.currentUser) return; // Ensure user is logged in
@@ -105,7 +100,7 @@ function App() {
       updateDoc(doc(db, "users", auth.currentUser.uid), { foodQuantity: food + 2 })
         .catch((error) => console.error("Error updating foodQuantity after cultivation:", error));
       setFood((prevFood) => prevFood + 2);
-    }, cultRate);
+    }, 300000);
   };
 
   const increaseHealth = () => {
@@ -161,14 +156,28 @@ function App() {
     
 
   }
-  const [hasAppliedMultiplier, setHasAppliedMultiplier] = useState(false);
 
-useEffect(() => {
-  if (items.includes('2mult') && !hasAppliedMultiplier) {
-    setCultrate(prevRate => prevRate / 2);
-    setHasAppliedMultiplier(true); // Ensures it runs only once
-  }
-}, [items]);
+  const buyMult = () => {
+    if (coins >= 300) {  // Ensure the user has at least 300 coins
+      const newItems = [...items, "2mult"]; // Create a new array instead of using push()
+      const newCoins = coins - 300;
+  
+      updateDoc(doc(db, "users", auth.currentUser.uid), { 
+        coins: newCoins,
+        items: newItems
+      })
+      .then(() => {
+        setCoins(newCoins);  // Update local state after Firestore update
+        setItems(newItems);
+        alert("you bought a 2x cultivation multiplier!!")
+      })
+      .catch((error) => console.error("Error updating document:", error));
+    } 
+    else {
+      alert('Not enough money');
+    }
+  };
+  
 
 
   return (
@@ -179,7 +188,7 @@ useEffect(() => {
         <Link to="/signup"><h2>signup</h2></Link>
         <Link to="/login"><h2>login</h2></Link>
         <a onClick={handleSignOut} className={styles.signOut}><h2>signout</h2></a>
-        <Link to="/shop"><h2>shop</h2></Link>
+        <Link to="/"><h2>home</h2></Link>
         
 
       </div>
@@ -188,35 +197,14 @@ useEffect(() => {
 
     {isAuthenticated && (
     <div>
-      <div className={styles.secondHeading}>
-        {username && <h2>welcom e {username}</h2>} 
-      </div>
-      <div className={styles.petContainer}>
-        <div className={styles.pet1}>
-          <img src={flowerguy} style={{ width: "640px", height: "300px" }} alt="Pet"/>
+        <h2 className={styles.title}>apothecary</h2>
+        <div className = {styles.cultivationMultiplier}>
+            <div class={styles.borderbox}>
+            <h2>cultivation multiplier</h2>
+            <img src={cultmult} style={{ width: "300px", height: "300px" }}></img>
+            <button className={styles.coolbutton} onClick={buyMult}>300 coins</button>
+            </div>
         </div>
-      </div>
-      <div className={styles.statDisplay2}>
-        {coins !== null && <h2 className={styles.coinDisplay}>Coins: {coins}</h2>} 
-        <div>
-          {health !== null && <h2 className={styles.healthDisplay}>Health: {health}</h2>} 
-        </div>
-        {food !== null && <h2 className={styles.foodDisplay}>Food quantity: {food}</h2>} 
-      </div>
-      <div className={styles.statDisplay}>
-        <div className={styles.marketStuff}></div>
-        <div className={styles.farming}></div>
-        <button className={styles.coolbutton} onClick={increaseHealth}>Feed the monster</button>
-        <button className={styles.coolbutton} onClick={cultivation}>Cultivate food</button>
-        <h2>Market</h2>
-      </div>
-      <div className={styles.marketStuff}>
-        <button className={styles.coolbutton} onClick={sellFood}>Sell food</button>
-        <button className={styles.coolbutton} onClick={buyFood}>Buy food</button>
-      </div>
-      <div>
-        <h2 className={styles.showItems}>items: {items}</h2>
-      </div>
     </div>
     )}
     {!isAuthenticated && (
@@ -227,4 +215,4 @@ useEffect(() => {
   );
 }
 
-export default App;
+export default Shop;

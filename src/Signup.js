@@ -6,6 +6,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
 import { useNavigate } from "react-router-dom";
+import { getAnalytics } from "firebase/analytics";
 
 
 // Firebase configuration
@@ -24,7 +25,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
-
+const analytics = getAnalytics(app);
 
 function Signup() {
   

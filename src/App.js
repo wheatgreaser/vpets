@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import flowerguy from './flowerguy.png';
+import { getAnalytics } from "firebase/analytics";
 
 function App() {
   const [username, setUsername] = useState(""); 
@@ -15,6 +16,7 @@ function App() {
   const db = getFirestore(); 
   var [isAuthenticated, setAuthenticated] = useState(false);
   const [cultRate, setCultrate] = useState(30000);
+  
   console.log(process.env.API_KEY)
   console.log(cultRate);
   onAuthStateChanged(auth, (user) => {

@@ -201,7 +201,7 @@ function Shop() {
         <div className = {styles.cultivationMultiplier}>
             <div class={styles.borderbox}>
             <h2>cultivation multiplier</h2>
-            <img src={cultmult} style={{ width: "300px", height: "300px" }}></img>
+            <img src={cultmult}></img>
             <button className={styles.coolbutton} onClick={buyMult}>300 coins</button>
             </div>
         </div>

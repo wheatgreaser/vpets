@@ -9,16 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { getAnalytics } from "firebase/analytics";
 
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBrAn_i9d-LUREYePaDEL8kaI2TItaYevo",
-  authDomain: "pokemans-4b2f1.firebaseapp.com",
-  projectId: "pokemans-4b2f1",
-  storageBucket: "pokemans-4b2f1.firebasestorage.app",
-  messagingSenderId: "154321828881",
-  appId: "1:154321828881:web:ba023bd57b7b2c61f8c5b0",
-  measurementId: "G-QV1TWZ137G"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

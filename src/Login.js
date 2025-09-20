@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Login.module.css"; // ✅ Import as module
+import styles from "./Login.module.css"; 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -41,7 +41,7 @@ function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            className={styles.input} // ✅ Scoped input class
+            className={styles.input} 
           />
           <input
             type="password"

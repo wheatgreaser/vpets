@@ -9,16 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyBrAn_i9d-LUREYePaDEL8kaI2TItaYevo",
+  authDomain: "pokemans-4b2f1.firebaseapp.com",
+  projectId: "pokemans-4b2f1",
+  storageBucket: "pokemans-4b2f1.firebasestorage.app",
+  messagingSenderId: "154321828881",
+  appId: "1:154321828881:web:ba023bd57b7b2c61f8c5b0",
+  measurementId: "G-QV1TWZ137G"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
